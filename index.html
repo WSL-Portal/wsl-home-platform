@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>وصل المنزل — المنصة الذكية لاحتياجات الأسرة</title>
+  <meta name="description" content="منصة وصل المنزل تربط أفراد الأسرة بالمتاجر والمطاعم في الحي بنظام ذكي يوفر الوقت والمال" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', 'Noto Sans Arabic', sans-serif;
+      background: #0B0E1A;
+      color: #FFFFFF;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0E1A; }
+    ::-webkit-scrollbar-thumb { background: #8A2BE2; border-radius: 3px; }
+
+    /* ===== VARIABLES ===== */
+    :root {
+      --purple: #8A2BE2;
+      --orange: #FF8C00;
+      --bg: #0B0E1A;
+      --bg2: #0F1228;
+      --white: #FFFFFF;
+      --muted: rgba(255,255,255,0.6);
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.1);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    @keyframes pulse-glow { 0%,100%{box-shadow:0 0 20px rgba(138,43,226,0.4)} 50%{box-shadow:0 0 40px rgba(138,43,226,0.8)} }
+    @keyframes slide-in { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes count-up { from{opacity:0;transform:scale(0.5)} to{opacity:1;transform:scale(1)} }
+    @keyframes spin-slow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes fade-in { from{opacity:0} to{opacity:1} }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    .animate-float-2 { animation: float 3.5s ease-in-out infinite 0.5s; }
+    .animate-float-3 { animation: float 4s ease-in-out infinite 1s; }
+    .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .slide-in { animation: slide-in 0.6s ease-out forwards; }
+
+    /* ===== NAVBAR ===== */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(11,14,26,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(138,43,226,0.25);
+      padding: 10px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-brand img { width: 38px; height: 38px; object-fit: contain; }
+    .nav-brand span { font-weight: 900; font-size: 17px; color: #FFFFFF; }
+    .lang-switcher { display: flex; gap: 6px; flex-wrap: wrap; }
+    .lang-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 5px 13px;
+      color: #FFFFFF; cursor: pointer; font-size: 13px; font-weight: 600;
+      transition: all 0.25s; font-family: inherit;
+    }
+    .lang-btn:hover { background: rgba(138,43,226,0.3); border-color: var(--purple); }
+    .lang-btn.active {
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      border-color: transparent; font-weight: 700;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 110px 24px 80px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(138,43,226,0.28) 0%, #0B0E1A 65%);
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(138,43,226,0.12) 1px, transparent 1px);
+      background-size: 44px 44px; pointer-events: none;
+    }
+    .hero-orb-1 {
+      position: absolute; top: 15%; left: 8%; width: 320px; height: 320px;
+      border-radius: 50%; background: rgba(138,43,226,0.12); filter: blur(90px);
+      pointer-events: none; animation: float 6s ease-in-out infinite;
+    }
+    .hero-orb-2 {
+      position: absolute; bottom: 15%; right: 8%; width: 260px; height: 260px;
+      border-radius: 50%; background: rgba(255,140,0,0.1); filter: blur(80px);
+      pointer-events: none; animation: float 7s ease-in-out infinite 1s;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(138,43,226,0.25), rgba(255,140,0,0.25));
+      border: 1px solid rgba(138,43,226,0.45);
+      border-radius: 30px; padding: 7px 22px;
+      font-size: 14px; color: #C084FC; margin-bottom: 24px; font-weight: 600;
+    }
+    .hero-title {
+      font-size: clamp(52px, 9vw, 100px);
+      font-weight: 900; line-height: 1.1; margin-bottom: 18px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #C084FC 45%, #FF8C00 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: clamp(18px, 3vw, 26px);
+      color: #C084FC; font-weight: 700; margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 16px; color: rgba(255,255,255,0.68);
+      max-width: 520px; margin: 0 auto 44px; line-height: 1.8;
+    }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      border: none; border-radius: 50px; padding: 15px 38px;
+      color: #FFFFFF; font-size: 16px; font-weight: 700; cursor: pointer;
+      text-decoration: none; display: inline-block;
+      box-shadow: 0 8px 32px rgba(138,43,226,0.45);
+      transition: transform 0.2s, box-shadow 0.2s; font-family: inherit;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(138,43,226,0.6); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px; padding: 15px 38px;
+      color: #FFFFFF; font-size: 16px; font-weight: 600; cursor: pointer;
+      backdrop-filter: blur(8px); transition: all 0.2s; font-family: inherit;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.18); }
+    .hero-icons {
+      position: absolute; bottom: 36px; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; z-index: 2;
+    }
+    .hero-icon { font-size: 34px; opacity: 0.75; }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 90px 24px; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-title {
+      font-size: clamp(28px, 4.5vw, 50px);
+      font-weight: 900; color: #FFFFFF; margin-bottom: 12px;
+    }
+    .section-subtitle { color: var(--muted); font-size: 18px; }
+    .container { max-width: 1140px; margin: 0 auto; }
+
+    /* ===== PARTIES ===== */
+    #parties { background: linear-gradient(180deg, #0B0E1A 0%, #0F1228 100%); }
+    .party-showcase {
+      background: rgba(255,255,255,0.04);
+      border-radius: 24px; padding: 44px;
+      margin-bottom: 36px; text-align: center;
+      min-height: 200px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: border-color 0.5s, background 0.5s;
+      border: 2px solid rgba(138,43,226,0.3);
+    }
+    .party-showcase-icon { font-size: 72px; margin-bottom: 18px; filter: drop-shadow(0 0 24px rgba(138,43,226,0.6)); }
+    .party-showcase-name { font-size: 30px; font-weight: 900; margin-bottom: 10px; }
+    .party-showcase-desc { color: rgba(255,255,255,0.75); font-size: 17px; max-width: 440px; }
+    .parties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .party-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 22px 16px;
+      cursor: pointer; transition: all 0.3s; text-align: center;
+    }
+    .party-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .party-card.active { border-color: var(--active-color, #8A2BE2); background: rgba(138,43,226,0.12); }
+    .party-card-icon { font-size: 38px; margin-bottom: 10px; }
+    .party-card-name { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+    .party-card-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* ===== JOURNEY ===== */
+    #journey { background: #0B0E1A; }
+    .journey-showcase {
+      background: linear-gradient(135deg, rgba(138,43,226,0.12), rgba(255,140,0,0.12));
+      border: 1px solid rgba(138,43,226,0.3);
+      border-radius: 24px; padding: 48px;
+      margin-bottom: 36px; text-align: center;
+      min-height: 200px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: all 0.4s;
+    }
+    .journey-icon { font-size: 64px; margin-bottom: 18px; }
+    .journey-who {
+      font-size: 13px; color: var(--orange); font-weight: 700;
+      background: rgba(255,140,0,0.15); border-radius: 20px;
+      padding: 5px 18px; display: inline-block; margin-bottom: 12px;
+    }
+    .journey-step-title { font-size: 28px; font-weight: 900; margin-bottom: 10px; }
+    .journey-step-desc { color: rgba(255,255,255,0.72); font-size: 16px; }
+    .journey-timeline {
+      display: flex; gap: 10px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .journey-dot {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; cursor: pointer; min-width: 90px;
+    }
+    .journey-dot-circle {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; transition: all 0.3s;
+    }
+    .journey-dot.active .journey-dot-circle {
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      border-color: transparent;
+      box-shadow: 0 0 22px rgba(138,43,226,0.55);
+    }
+    .journey-dot-label {
+      font-size: 11px; color: var(--muted);
+      text-align: center; max-width: 80px; line-height: 1.3;
+      transition: color 0.3s;
+    }
+    .journey-dot.active .journey-dot-label { color: #C084FC; font-weight: 700; }
+    .journey-progress-bar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px; height: 4px; overflow: hidden; margin-bottom: 8px;
+    }
+    .journey-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8A2BE2, #FF8C00);
+      border-radius: 4px; transition: width 0.5s ease;
+    }
+    .journey-counter { text-align: center; font-size: 13px; color: rgba(255,255,255,0.35); }
+
+    /* ===== DASHBOARD ===== */
+    #dashboard { background: linear-gradient(180deg, #0B0E1A 0%, #0F1228 100%); }
+    .toggle-group {
+      display: flex; justify-content: center; margin-bottom: 44px;
+    }
+    .toggle-wrap {
+      background: rgba(255,255,255,0.07);
+      border-radius: 50px; padding: 5px; display: flex; gap: 5px;
+    }
+    .toggle-btn {
+      background: transparent; border: none; border-radius: 50px;
+      padding: 11px 30px; color: #FFFFFF; cursor: pointer;
+      font-weight: 700; font-size: 15px; transition: all 0.3s; font-family: inherit;
+    }
+    .toggle-btn.before.active { background: linear-gradient(135deg, #EF4444, #F97316); }
+    .toggle-btn.after.active { background: linear-gradient(135deg, #8A2BE2, #FF8C00); }
+    .dash-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px; margin-bottom: 36px;
+    }
+    .dash-card {
+      border-radius: 20px; padding: 30px 24px; text-align: center;
+      transition: all 0.5s;
+    }
+    .dash-card-icon { font-size: 38px; margin-bottom: 14px; }
+    .dash-card-value {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900; line-height: 1; margin-bottom: 10px;
+    }
+    .dash-card-label { color: rgba(255,255,255,0.6); font-size: 14px; }
+    .saving-box {
+      background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(245,158,11,0.18));
+      border: 1px solid rgba(16,185,129,0.4);
+      border-radius: 20px; padding: 36px; text-align: center;
+      margin-bottom: 36px; display: none;
+    }
+    .saving-box.show { display: block; animation: slide-in 0.5s ease-out; }
+    .saving-percent {
+      font-size: clamp(52px, 9vw, 88px); font-weight: 900;
+      background: linear-gradient(135deg, #10B981, #F59E0B);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .saving-label { font-size: 20px; color: #FFFFFF; font-weight: 700; margin-top: 10px; }
+    .saving-stats { display: flex; justify-content: center; gap: 44px; margin-top: 28px; flex-wrap: wrap; }
+    .saving-stat-val { font-size: 34px; font-weight: 900; }
+    .saving-stat-lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* Chart */
+    .chart-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px;
+    }
+    .chart-title { font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 28px; }
+    .chart-bars {
+      display: flex; gap: 18px; align-items: flex-end;
+      justify-content: center; height: 160px;
+    }
+    .chart-month { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .chart-bar-group { display: flex; gap: 5px; align-items: flex-end; }
+    .chart-bar {
+      width: 22px; border-radius: 4px 4px 0 0;
+      transition: height 0.7s ease, background 0.5s;
+    }
+    .chart-bar.before { background: rgba(239,68,68,0.55); }
+    .chart-bar.after { background: linear-gradient(180deg, #8A2BE2, #FF8C00); }
+    .chart-bar.after.hidden { background: rgba(239,68,68,0.25); }
+    .chart-month-label { font-size: 10px; color: rgba(255,255,255,0.35); }
+    .chart-legend { display: flex; gap: 24px; justify-content: center; margin-top: 18px; }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+    .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(135deg, #1E0A3C, #3B0764, #1C0A00);
+      padding: 64px 24px 40px; text-align: center;
+    }
+    .footer-logo { width: 90px; height: 90px; object-fit: contain; margin-bottom: 18px; }
+    .footer-title { font-size: 30px; font-weight: 900; margin-bottom: 10px; }
+    .footer-tagline { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+    .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 44px; }
+    .footer-link {
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      border-radius: 50px; padding: 13px 34px;
+      color: #FFFFFF; font-size: 15px; font-weight: 700;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .footer-link:hover { opacity: 0.88; }
+    .footer-wsl-logo { width: 60px; height: 60px; object-fit: contain; margin-bottom: 12px; opacity: 0.8; }
+    .footer-copy { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; color: rgba(255,255,255,0.28); font-size: 13px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      #navbar { padding: 8px 14px; }
+      .lang-btn { font-size: 11px; padding: 4px 9px; }
+      .hero-icons { gap: 16px; }
+      .party-showcase { padding: 28px 18px; }
+      .journey-showcase { padding: 28px 18px; }
+      .chart-bars { gap: 10px; }
+      .chart-bar { width: 16px; }
+    }
+
+    /* ===== LTR OVERRIDE ===== */
+    [dir="ltr"] { font-family: 'Cairo', sans-serif; }
+    [lang="ur"] { font-family: 'Noto Nastaliq Urdu', 'Cairo', sans-serif; }
+    [lang="hi"] { font-family: 'Noto Sans Devanagari', 'Cairo', sans-serif; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a class="nav-brand" href="#">
+    <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663432365674/kDGLXbBmawyfCtIu.png" alt="وصل المنزل" onerror="this.style.display='none'" />
+    <span id="nav-brand-text">وصل المنزل</span>
+  </a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('ar')">🇸🇦 العربية</button>
+    <button class="lang-btn" onclick="setLang('en')">🇬🇧 English</button>
+    <button class="lang-btn" onclick="setLang('ur')">🇵🇰 اردو</button>
+    <button class="lang-btn" onclick="setLang('hi')">🇮🇳 हिंदी</button>
+    <button class="lang-btn" onclick="setLang('fil')">🇵🇭 Filipino</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb-1"></div>
+  <div class="hero-orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">✨ المنصة الذكية لاحتياجات الأسرة</div>
+    <h1 class="hero-title" id="hero-title">وصل المنزل</h1>
+    <p class="hero-subtitle" id="hero-subtitle">من الاحتياج إلى باب منزلك — بضغطة واحدة</p>
+    <p class="hero-desc" id="hero-desc">منصة تربط أفراد الأسرة بالمتاجر والمطاعم في الحي بنظام ذكي يوفر الوقت والمال</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="https://wslhome-ucjote7q.manus.space" target="_blank" id="hero-cta">🚀 ابدأ الآن</a>
+      <button class="btn-secondary" onclick="document.getElementById('journey').scrollIntoView({behavior:'smooth'})" id="hero-watch">▶ شاهد كيف تعمل</button>
+    </div>
+  </div>
+  <div class="hero-icons">
+    <span class="hero-icon animate-float">👨‍💼</span>
+    <span class="hero-icon animate-float-2">👩‍🍳</span>
+    <span class="hero-icon animate-float-3">👦</span>
+    <span class="hero-icon animate-float">👧</span>
+    <span class="hero-icon animate-float-2">🏪</span>
+    <span class="hero-icon animate-float-3">🍽️</span>
+  </div>
+</section>
+
+<!-- ===== PARTIES ===== -->
+<section id="parties">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="parties-title">الأطراف المستفيدة</h2>
+      <p class="section-subtitle" id="parties-subtitle">منصة واحدة تخدم الجميع</p>
+    </div>
+    <div class="party-showcase" id="party-showcase">
+      <div class="party-showcase-icon" id="showcase-icon">👨‍💼</div>
+      <div class="party-showcase-name" id="showcase-name" style="color:#8A2BE2">رب الأسرة</div>
+      <div class="party-showcase-desc" id="showcase-desc">يتحكم في الميزانية ويوافق على الطلبات</div>
+    </div>
+    <div class="parties-grid" id="parties-grid"></div>
+  </div>
+</section>
+
+<!-- ===== JOURNEY ===== -->
+<section id="journey">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="journey-title">رحلة الطلب الكاملة</h2>
+      <p class="section-subtitle" id="journey-subtitle">من الاحتياج إلى الاستلام في خطوات بسيطة</p>
+    </div>
+    <div class="journey-showcase" id="journey-showcase">
+      <div class="journey-icon" id="journey-icon">📝</div>
+      <div class="journey-who" id="journey-who">أفراد الأسرة</div>
+      <h3 class="journey-step-title" id="journey-step-title">إضافة الاحتياج</h3>
+      <p class="journey-step-desc" id="journey-step-desc">كل فرد يضيف احتياجاته من هاتفه</p>
+    </div>
+    <div class="journey-timeline" id="journey-timeline"></div>
+    <div class="journey-progress-bar">
+      <div class="journey-progress-fill" id="journey-progress" style="width:14.3%"></div>
+    </div>
+    <div class="journey-counter" id="journey-counter">1 / 7</div>
+  </div>
+</section>
+
+<!-- ===== DASHBOARD ===== -->
+<section id="dashboard">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="dash-title">لوحة تحكم رب الأسرة</h2>
+      <p class="section-subtitle" id="dash-subtitle">تحكم كامل في إنفاق الأسرة</p>
+    </div>
+    <div class="toggle-group">
+      <div class="toggle-wrap">
+        <button class="toggle-btn before active" id="btn-before" onclick="setDashMode('before')">
+          ⚠️ <span id="lbl-before">قبل وصل المنزل</span>
+        </button>
+        <button class="toggle-btn after" id="btn-after" onclick="setDashMode('after')">
+          ✅ <span id="lbl-after">مع وصل المنزل</span>
+        </button>
+      </div>
+    </div>
+    <div class="dash-cards" id="dash-cards"></div>
+    <div class="saving-box" id="saving-box">
+      <div class="saving-percent" id="saving-percent">29%</div>
+      <div class="saving-label" id="saving-label">توفير في المصروف</div>
+      <div class="saving-stats">
+        <div>
+          <div class="saving-stat-val" style="color:#8A2BE2">4</div>
+          <div class="saving-stat-lbl" id="lbl-members">أفراد الأسرة</div>
+        </div>
+        <div>
+          <div class="saving-stat-val" style="color:#FF8C00">8+</div>
+          <div class="saving-stat-lbl" id="lbl-stores">متاجر مرتبطة</div>
+        </div>
+        <div>
+          <div class="saving-stat-val" style="color:#10B981">18</div>
+          <div class="saving-stat-lbl" id="lbl-orders-month">طلبات هذا الشهر</div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title" id="chart-title">📊 مقارنة الإنفاق الشهري</div>
+      <div class="chart-bars" id="chart-bars"></div>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:rgba(239,68,68,0.55)"></div>
+          <span id="legend-before">قبل وصل المنزل</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:linear-gradient(135deg,#8A2BE2,#FF8C00)"></div>
+          <span id="legend-after">مع وصل المنزل</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <img class="footer-logo" src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663432365674/kDGLXbBmawyfCtIu.png" alt="وصل المنزل" onerror="this.style.display='none'" />
+  <h3 class="footer-title">وصل المنزل</h3>
+  <p class="footer-tagline" id="footer-tagline">لأن أسرتك تستحق الأفضل</p>
+  <div class="footer-links">
+    <a class="footer-link" href="https://wslhome-ucjote7q.manus.space" target="_blank" id="footer-visit">🌐 زيارة المنصة</a>
+  </div>
+  <img class="footer-wsl-logo" src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663432365674/AJFIJmqenFZqjLle.jpeg" alt="وصل" onerror="this.style.display='none'" />
+  <div class="footer-copy" id="footer-copy">© 2025 وصل المنزل — جميع الحقوق محفوظة</div>
+</footer>
+
+<script>
+// ===== TRANSLATIONS =====
+const T = {
+  ar: {
+    dir:"rtl", lang:"ar",
+    navBrand:"وصل المنزل",
+    heroBadge:"✨ المنصة الذكية لاحتياجات الأسرة",
+    heroTitle:"وصل المنزل",
+    heroSubtitle:"من الاحتياج إلى باب منزلك — بضغطة واحدة",
+    heroDesc:"منصة تربط أفراد الأسرة بالمتاجر والمطاعم في الحي بنظام ذكي يوفر الوقت والمال",
+    heroCta:"🚀 ابدأ الآن",
+    heroWatch:"▶ شاهد كيف تعمل",
+    partiesTitle:"الأطراف المستفيدة",
+    partiesSubtitle:"منصة واحدة تخدم الجميع",
+    journeyTitle:"رحلة الطلب الكاملة",
+    journeySubtitle:"من الاحتياج إلى الاستلام في خطوات بسيطة",
+    dashTitle:"لوحة تحكم رب الأسرة",
+    dashSubtitle:"تحكم كامل في إنفاق الأسرة",
+    lblBefore:"قبل وصل المنزل",
+    lblAfter:"مع وصل المنزل",
+    lblBudget:"الميزانية الشهرية",
+    lblSpent:"المصروف",
+    lblSaved:"التوفير",
+    lblOrders:"الطلبات",
+    savingLabel:"توفير في المصروف",
+    lblMembers:"أفراد الأسرة",
+    lblStores:"متاجر مرتبطة",
+    lblOrdersMonth:"طلبات هذا الشهر",
+    chartTitle:"📊 مقارنة الإنفاق الشهري",
+    chartMonths:["يناير","فبراير","مارس","أبريل","مايو","يونيو"],
+    footerTagline:"لأن أسرتك تستحق الأفضل",
+    footerVisit:"🌐 زيارة المنصة",
+    footerCopy:"© 2025 وصل المنزل — جميع الحقوق محفوظة",
+    parties:[
+      {icon:"👨‍💼",name:"رب الأسرة",desc:"يتحكم في الميزانية ويوافق على الطلبات",color:"#8A2BE2"},
+      {icon:"👩‍🍳",name:"الأم",desc:"تضيف احتياجات المنزل والمطبخ",color:"#FF8C00"},
+      {icon:"👦",name:"الابن",desc:"يطلب احتياجاته الشخصية بسهولة",color:"#10B981"},
+      {icon:"👧",name:"البنت",desc:"تضيف منتجاتها المفضلة للقائمة",color:"#F59E0B"},
+      {icon:"🏪",name:"البقالة",desc:"تستقبل الطلبات وتجهّزها وتوصّلها",color:"#3B82F6"},
+      {icon:"🍽️",name:"المطعم",desc:"يستقبل طلبات الطعام ويوصّلها طازجة",color:"#EF4444"},
+      {icon:"🛒",name:"متجر الخضار",desc:"يعرض أسعاره ويتنافس على أفضل عرض",color:"#059669"},
+      {icon:"💊",name:"الصيدلية",desc:"توفّر الأدوية والمستلزمات الصحية",color:"#6366F1"},
+    ],
+    steps:[
+      {icon:"📝",title:"إضافة الاحتياج",desc:"كل فرد يضيف احتياجاته من هاتفه",who:"أفراد الأسرة"},
+      {icon:"✅",title:"موافقة رب الأسرة",desc:"يراجع القائمة ويوافق ضمن الميزانية",who:"رب الأسرة"},
+      {icon:"📤",title:"إرسال للمتاجر",desc:"الطلب يُرسل لجميع متاجر الحي",who:"المنصة"},
+      {icon:"💰",title:"مقارنة الأسعار",desc:"تعرض أفضل الأسعار من المتاجر المختلفة",who:"المنصة"},
+      {icon:"🏪",title:"تجهيز الطلب",desc:"المتجر يستقبل ويجهّز الطلب فوراً",who:"المتجر"},
+      {icon:"🚗",title:"التوصيل للمنزل",desc:"يصل للباب مع إشعار لحظي",who:"عامل التوصيل"},
+      {icon:"⭐",title:"التقييم والمتابعة",desc:"قيّم تجربتك وتابع إنفاقك الشهري",who:"رب الأسرة"},
+    ],
+  },
+  en: {
+    dir:"ltr", lang:"en",
+    navBrand:"Wasl Al-Manzil",
+    heroBadge:"✨ Smart Family Needs Platform",
+    heroTitle:"Wasl Al-Manzil",
+    heroSubtitle:"From need to your doorstep — with one tap",
+    heroDesc:"A platform connecting families with local stores and restaurants using a smart system that saves time and money",
+    heroCta:"🚀 Get Started",
+    heroWatch:"▶ See How It Works",
+    partiesTitle:"Platform Stakeholders",
+    partiesSubtitle:"One platform serving everyone",
+    journeyTitle:"Complete Order Journey",
+    journeySubtitle:"From need to delivery in simple steps",
+    dashTitle:"Family Head Dashboard",
+    dashSubtitle:"Full control over family spending",
+    lblBefore:"Before Wasl Al-Manzil",
+    lblAfter:"With Wasl Al-Manzil",
+    lblBudget:"Monthly Budget",
+    lblSpent:"Spent",
+    lblSaved:"Saved",
+    lblOrders:"Orders",
+    savingLabel:"Savings on expenses",
+    lblMembers:"Family Members",
+    lblStores:"Connected Stores",
+    lblOrdersMonth:"Orders This Month",
+    chartTitle:"📊 Monthly Spending Comparison",
+    chartMonths:["Jan","Feb","Mar","Apr","May","Jun"],
+    footerTagline:"Because your family deserves the best",
+    footerVisit:"🌐 Visit Platform",
+    footerCopy:"© 2025 Wasl Al-Manzil — All rights reserved",
+    parties:[
+      {icon:"👨‍💼",name:"Head of Family",desc:"Controls budget and approves orders",color:"#8A2BE2"},
+      {icon:"👩‍🍳",name:"Mother",desc:"Adds home and kitchen needs",color:"#FF8C00"},
+      {icon:"👦",name:"Son",desc:"Easily requests personal items",color:"#10B981"},
+      {icon:"👧",name:"Daughter",desc:"Adds favorite products to the list",color:"#F59E0B"},
+      {icon:"🏪",name:"Grocery Store",desc:"Receives, prepares and delivers orders",color:"#3B82F6"},
+      {icon:"🍽️",name:"Restaurant",desc:"Receives food orders and delivers fresh",color:"#EF4444"},
+      {icon:"🛒",name:"Vegetable Store",desc:"Lists prices and competes for best offer",color:"#059669"},
+      {icon:"💊",name:"Pharmacy",desc:"Provides medicines and health supplies",color:"#6366F1"},
+    ],
+    steps:[
+      {icon:"📝",title:"Add Need",desc:"Each member adds needs from their phone",who:"Family Members"},
+      {icon:"✅",title:"Family Head Approval",desc:"Reviews list and approves within budget",who:"Head of Family"},
+      {icon:"📤",title:"Send to Stores",desc:"Order sent to all neighborhood stores",who:"Platform"},
+      {icon:"💰",title:"Price Comparison",desc:"Best prices from different stores displayed",who:"Platform"},
+      {icon:"🏪",title:"Order Preparation",desc:"Store receives and prepares order immediately",who:"Store"},
+      {icon:"🚗",title:"Home Delivery",desc:"Arrives at door with real-time notification",who:"Delivery"},
+      {icon:"⭐",title:"Rate & Track",desc:"Rate your experience and track monthly spending",who:"Head of Family"},
+    ],
+  },
+  ur: {
+    dir:"rtl", lang:"ur",
+    navBrand:"وصل المنزل",
+    heroBadge:"✨ خاندانی ضروریات کا سمارٹ پلیٹ فارم",
+    heroTitle:"وصل المنزل",
+    heroSubtitle:"ضرورت سے دروازے تک — ایک ٹچ میں",
+    heroDesc:"ایک پلیٹ فارم جو خاندانوں کو مقامی دکانوں اور ریستوراں سے جوڑتا ہے",
+    heroCta:"🚀 ابھی شروع کریں",
+    heroWatch:"▶ دیکھیں کیسے کام کرتا ہے",
+    partiesTitle:"فریقین",
+    partiesSubtitle:"ایک پلیٹ فارم سب کی خدمت میں",
+    journeyTitle:"مکمل آرڈر سفر",
+    journeySubtitle:"ضرورت سے ڈیلیوری تک آسان مراحل میں",
+    dashTitle:"سربراہ کا ڈیش بورڈ",
+    dashSubtitle:"خاندانی اخراجات پر مکمل کنٹرول",
+    lblBefore:"وصل المنزل سے پہلے",
+    lblAfter:"وصل المنزل کے ساتھ",
+    lblBudget:"ماہانہ بجٹ",
+    lblSpent:"خرچ",
+    lblSaved:"بچت",
+    lblOrders:"آرڈرز",
+    savingLabel:"اخراجات میں بچت",
+    lblMembers:"خاندان کے افراد",
+    lblStores:"منسلک دکانیں",
+    lblOrdersMonth:"اس مہینے کے آرڈرز",
+    chartTitle:"📊 ماہانہ اخراجات کا موازنہ",
+    chartMonths:["جنوری","فروری","مارچ","اپریل","مئی","جون"],
+    footerTagline:"کیونکہ آپ کا خاندان بہترین کا مستحق ہے",
+    footerVisit:"🌐 پلیٹ فارم وزٹ کریں",
+    footerCopy:"© 2025 وصل المنزل — تمام حقوق محفوظ ہیں",
+    parties:[
+      {icon:"👨‍💼",name:"گھر کا سربراہ",desc:"بجٹ کنٹرول اور آرڈر منظوری",color:"#8A2BE2"},
+      {icon:"👩‍🍳",name:"والدہ",desc:"گھر اور باورچی خانے کی ضروریات",color:"#FF8C00"},
+      {icon:"👦",name:"بیٹا",desc:"ذاتی اشیاء آسانی سے منگوائیں",color:"#10B981"},
+      {icon:"👧",name:"بیٹی",desc:"پسندیدہ مصنوعات فہرست میں شامل کریں",color:"#F59E0B"},
+      {icon:"🏪",name:"گروسری اسٹور",desc:"آرڈر وصول، تیار اور ڈیلیور کریں",color:"#3B82F6"},
+      {icon:"🍽️",name:"ریستوران",desc:"کھانے کے آرڈر وصول اور ڈیلیور",color:"#EF4444"},
+      {icon:"🛒",name:"سبزی کی دکان",desc:"قیمتیں درج کریں اور مقابلہ کریں",color:"#059669"},
+      {icon:"💊",name:"فارمیسی",desc:"دوائیں اور صحت کی اشیاء فراہم کریں",color:"#6366F1"},
+    ],
+    steps:[
+      {icon:"📝",title:"ضرورت شامل کریں",desc:"ہر فرد اپنے فون سے ضروریات شامل کرے",who:"خاندان کے افراد"},
+      {icon:"✅",title:"سربراہ کی منظوری",desc:"فہرست دیکھیں اور بجٹ میں منظور کریں",who:"گھر کا سربراہ"},
+      {icon:"📤",title:"دکانوں کو بھیجیں",desc:"آرڈر تمام مقامی دکانوں کو بھیجا جاتا ہے",who:"پلیٹ فارم"},
+      {icon:"💰",title:"قیمتوں کا موازنہ",desc:"مختلف دکانوں کی بہترین قیمتیں",who:"پلیٹ فارم"},
+      {icon:"🏪",title:"آرڈر تیاری",desc:"دکان آرڈر وصول اور فوری تیار کرے",who:"دکان"},
+      {icon:"🚗",title:"گھر ڈیلیوری",desc:"دروازے پر پہنچے فوری اطلاع کے ساتھ",who:"ڈیلیوری"},
+      {icon:"⭐",title:"ریٹنگ اور ٹریکنگ",desc:"تجربہ ریٹ کریں اور ماہانہ اخراجات دیکھیں",who:"گھر کا سربراہ"},
+    ],
+  },
+  hi: {
+    dir:"ltr", lang:"hi",
+    navBrand:"वस्ल अल-मंज़िल",
+    heroBadge:"✨ परिवार की जरूरतों का स्मार्ट प्लेटफॉर्म",
+    heroTitle:"वस्ल अल-मंज़िल",
+    heroSubtitle:"जरूरत से दरवाजे तक — एक टैप में",
+    heroDesc:"एक प्लेटफॉर्म जो परिवारों को स्थानीय दुकानों और रेस्तरां से जोड़ता है",
+    heroCta:"🚀 अभी शुरू करें",
+    heroWatch:"▶ देखें कैसे काम करता है",
+    partiesTitle:"सभी पक्ष",
+    partiesSubtitle:"एक प्लेटफॉर्म सबकी सेवा में",
+    journeyTitle:"पूरी ऑर्डर यात्रा",
+    journeySubtitle:"जरूरत से डिलीवरी तक सरल चरणों में",
+    dashTitle:"मुखिया का डैशबोर्ड",
+    dashSubtitle:"परिवार के खर्च पर पूर्ण नियंत्रण",
+    lblBefore:"वस्ल से पहले",
+    lblAfter:"वस्ल के साथ",
+    lblBudget:"मासिक बजट",
+    lblSpent:"खर्च",
+    lblSaved:"बचत",
+    lblOrders:"ऑर्डर",
+    savingLabel:"खर्च में बचत",
+    lblMembers:"परिवार के सदस्य",
+    lblStores:"जुड़ी दुकानें",
+    lblOrdersMonth:"इस महीने के ऑर्डर",
+    chartTitle:"📊 मासिक खर्च तुलना",
+    chartMonths:["जन","फर","मार","अप्र","मई","जून"],
+    footerTagline:"क्योंकि आपका परिवार सर्वश्रेष्ठ का हकदार है",
+    footerVisit:"🌐 प्लेटफॉर्म विजिट करें",
+    footerCopy:"© 2025 वस्ल अल-मंज़िल — सर्वाधिकार सुरक्षित",
+    parties:[
+      {icon:"👨‍💼",name:"परिवार का मुखिया",desc:"बजट नियंत्रण और ऑर्डर अनुमोदन",color:"#8A2BE2"},
+      {icon:"👩‍🍳",name:"माँ",desc:"घर और रसोई की जरूरतें जोड़ें",color:"#FF8C00"},
+      {icon:"👦",name:"बेटा",desc:"व्यक्तिगत सामान आसानी से मंगाएं",color:"#10B981"},
+      {icon:"👧",name:"बेटी",desc:"पसंदीदा उत्पाद सूची में जोड़ें",color:"#F59E0B"},
+      {icon:"🏪",name:"किराना दुकान",desc:"ऑर्डर प्राप्त करें, तैयार करें और डिलीवर करें",color:"#3B82F6"},
+      {icon:"🍽️",name:"रेस्तरां",desc:"खाने के ऑर्डर प्राप्त करें और डिलीवर करें",color:"#EF4444"},
+      {icon:"🛒",name:"सब्जी की दुकान",desc:"कीमतें दर्ज करें और प्रतिस्पर्धा करें",color:"#059669"},
+      {icon:"💊",name:"फार्मेसी",desc:"दवाएं और स्वास्थ्य सामग्री प्रदान करें",color:"#6366F1"},
+    ],
+    steps:[
+      {icon:"📝",title:"जरूरत जोड़ें",desc:"हर सदस्य अपने फोन से जरूरतें जोड़ें",who:"परिवार के सदस्य"},
+      {icon:"✅",title:"मुखिया की मंजूरी",desc:"सूची देखें और बजट में मंजूर करें",who:"परिवार का मुखिया"},
+      {icon:"📤",title:"दुकानों को भेजें",desc:"ऑर्डर सभी स्थानीय दुकानों को भेजा जाता है",who:"प्लेटफॉर्म"},
+      {icon:"💰",title:"कीमतों की तुलना",desc:"विभिन्न दुकानों की सर्वोत्तम कीमतें",who:"प्लेटफॉर्म"},
+      {icon:"🏪",title:"ऑर्डर तैयारी",desc:"दुकान ऑर्डर प्राप्त करे और तुरंत तैयार करे",who:"दुकान"},
+      {icon:"🚗",title:"घर डिलीवरी",desc:"दरवाजे पर पहुंचे तत्काल सूचना के साथ",who:"डिलीवरी"},
+      {icon:"⭐",title:"रेटिंग और ट्रैकिंग",desc:"अनुभव रेट करें और मासिक खर्च देखें",who:"परिवार का मुखिया"},
+    ],
+  },
+  fil: {
+    dir:"ltr", lang:"fil",
+    navBrand:"Wasl Al-Manzil",
+    heroBadge:"✨ Smart Platform para sa Pamilya",
+    heroTitle:"Wasl Al-Manzil",
+    heroSubtitle:"Mula sa pangangailangan hanggang sa iyong pintuan — isang tap lang",
+    heroDesc:"Isang platform na nagkokonekta sa mga pamilya sa mga lokal na tindahan at restaurant",
+    heroCta:"🚀 Magsimula Na",
+    heroWatch:"▶ Tingnan Kung Paano Gumagana",
+    partiesTitle:"Mga Kalahok",
+    partiesSubtitle:"Isang platform para sa lahat",
+    journeyTitle:"Kumpletong Order Journey",
+    journeySubtitle:"Mula sa pangangailangan hanggang sa delivery sa simpleng hakbang",
+    dashTitle:"Dashboard ng Ulo ng Pamilya",
+    dashSubtitle:"Kumpletong kontrol sa gastos ng pamilya",
+    lblBefore:"Bago ang Wasl Al-Manzil",
+    lblAfter:"Kasama ang Wasl Al-Manzil",
+    lblBudget:"Buwanang Badyet",
+    lblSpent:"Nagastos",
+    lblSaved:"Natipid",
+    lblOrders:"Mga Order",
+    savingLabel:"Savings sa gastos",
+    lblMembers:"Mga Miyembro ng Pamilya",
+    lblStores:"Mga Konektadong Tindahan",
+    lblOrdersMonth:"Mga Order Ngayong Buwan",
+    chartTitle:"📊 Paghahambing ng Buwanang Gastos",
+    chartMonths:["Ene","Peb","Mar","Abr","Mayo","Hun"],
+    footerTagline:"Dahil ang iyong pamilya ay karapat-dapat sa pinakamahusay",
+    footerVisit:"🌐 Bisitahin ang Platform",
+    footerCopy:"© 2025 Wasl Al-Manzil — Lahat ng karapatan ay nakalaan",
+    parties:[
+      {icon:"👨‍💼",name:"Ulo ng Pamilya",desc:"Kontrolin ang badyet at aprubahan ang mga order",color:"#8A2BE2"},
+      {icon:"👩‍🍳",name:"Ina",desc:"Idagdag ang mga pangangailangan ng tahanan",color:"#FF8C00"},
+      {icon:"👦",name:"Anak na Lalaki",desc:"Madaling humiling ng personal na gamit",color:"#10B981"},
+      {icon:"👧",name:"Anak na Babae",desc:"Idagdag ang mga paboritong produkto",color:"#F59E0B"},
+      {icon:"🏪",name:"Grocery Store",desc:"Tumanggap, maghanda at mag-deliver ng orders",color:"#3B82F6"},
+      {icon:"🍽️",name:"Restaurant",desc:"Tumanggap ng food orders at mag-deliver",color:"#EF4444"},
+      {icon:"🛒",name:"Tindahan ng Gulay",desc:"Ilista ang mga presyo at makipagkumpetensya",color:"#059669"},
+      {icon:"💊",name:"Parmasya",desc:"Magbigay ng gamot at health supplies",color:"#6366F1"},
+    ],
+    steps:[
+      {icon:"📝",title:"Idagdag ang Pangangailangan",desc:"Bawat miyembro ay nagdadagdag mula sa kanilang telepono",who:"Mga Miyembro ng Pamilya"},
+      {icon:"✅",title:"Pag-apruba ng Ulo",desc:"Suriin ang listahan at aprubahan sa loob ng badyet",who:"Ulo ng Pamilya"},
+      {icon:"📤",title:"Ipadala sa mga Tindahan",desc:"Ang order ay ipinapadala sa lahat ng lokal na tindahan",who:"Platform"},
+      {icon:"💰",title:"Paghahambing ng Presyo",desc:"Pinakamahusay na presyo mula sa iba't ibang tindahan",who:"Platform"},
+      {icon:"🏪",title:"Paghahanda ng Order",desc:"Tinatanggap at inihahanda ng tindahan agad",who:"Tindahan"},
+      {icon:"🚗",title:"Home Delivery",desc:"Darating sa pintuan na may real-time na abiso",who:"Delivery"},
+      {icon:"⭐",title:"I-rate at Subaybayan",desc:"I-rate ang karanasan at subaybayan ang gastos",who:"Ulo ng Pamilya"},
+    ],
+  },
+};
+
+// ===== STATE =====
+let currentLang = 'ar';
+let activeParty = 0;
+let activeStep = 0;
+let dashMode = 'before';
+let partyTimer, stepTimer;
+
+// ===== CHART DATA =====
+const chartBefore = [85, 92, 88, 95, 90, 87];
+const chartAfter  = [65, 60, 58, 62, 55, 53];
+
+// ===== INIT =====
+function init() {
+  renderParties();
+  renderJourneyTimeline();
+  renderDashCards();
+  renderChart();
+  startTimers();
+  applyLang('ar');
+}
+
+// ===== LANG =====
+function setLang(lang) {
+  currentLang = lang;
+  applyLang(lang);
+  document.querySelectorAll('.lang-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['ar','en','ur','hi','fil'][i] === lang);
+  });
+}
+
+function applyLang(lang) {
+  const t = T[lang];
+  document.documentElement.dir = t.dir;
+  document.documentElement.lang = t.lang;
+
+  setText('nav-brand-text', t.navBrand);
+  setText('hero-badge', t.heroBadge);
+  setText('hero-title', t.heroTitle);
+  setText('hero-subtitle', t.heroSubtitle);
+  setText('hero-desc', t.heroDesc);
+  setText('hero-cta', t.heroCta);
+  setText('hero-watch', t.heroWatch);
+  setText('parties-title', t.partiesTitle);
+  setText('parties-subtitle', t.partiesSubtitle);
+  setText('journey-title', t.journeyTitle);
+  setText('journey-subtitle', t.journeySubtitle);
+  setText('dash-title', t.dashTitle);
+  setText('dash-subtitle', t.dashSubtitle);
+  setText('lbl-before', t.lblBefore);
+  setText('lbl-after', t.lblAfter);
+  setText('saving-label', t.savingLabel);
+  setText('lbl-members', t.lblMembers);
+  setText('lbl-stores', t.lblStores);
+  setText('lbl-orders-month', t.lblOrdersMonth);
+  setText('chart-title', t.chartTitle);
+  setText('legend-before', t.lblBefore);
+  setText('legend-after', t.lblAfter);
+  setText('footer-tagline', t.footerTagline);
+  setText('footer-visit', t.footerVisit);
+  setText('footer-copy', t.footerCopy);
+
+  renderParties();
+  renderJourneyTimeline();
+  updateShowcase();
+  updateJourneyShowcase();
+  renderDashCards();
+  renderChart();
+}
+
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+// ===== PARTIES =====
+function renderParties() {
+  const t = T[currentLang];
+  const grid = document.getElementById('parties-grid');
+  if (!grid) return;
+  grid.innerHTML = t.parties.map((p, i) => `
+    <div class="party-card ${i === activeParty ? 'active' : ''}"
+         style="--active-color:${p.color}"
+         onclick="selectParty(${i})">
+      <div class="party-card-icon">${p.icon}</div>
+      <div class="party-card-name" style="color:${i === activeParty ? p.color : '#FFFFFF'}">${p.name}</div>
+      <div class="party-card-desc">${p.desc}</div>
+    </div>
+  `).join('');
+  updateShowcase();
+}
+
+function selectParty(i) {
+  activeParty = i;
+  clearInterval(partyTimer);
+  renderParties();
+  startPartyTimer();
+}
+
+function updateShowcase() {
+  const t = T[currentLang];
+  const p = t.parties[activeParty];
+  if (!p) return;
+  setText('showcase-icon', p.icon);
+  setText('showcase-name', p.name);
+  setText('showcase-desc', p.desc);
+  document.getElementById('showcase-name').style.color = p.color;
+  const showcase = document.getElementById('party-showcase');
+  showcase.style.borderColor = p.color + '60';
+  showcase.style.background = p.color + '10';
+}
+
+// ===== JOURNEY =====
+function renderJourneyTimeline() {
+  const t = T[currentLang];
+  const tl = document.getElementById('journey-timeline');
+  if (!tl) return;
+  tl.innerHTML = t.steps.map((s, i) => `
+    <div class="journey-dot ${i === activeStep ? 'active' : ''}" onclick="selectStep(${i})">
+      <div class="journey-dot-circle">${s.icon}</div>
+      <div class="journey-dot-label">${s.title}</div>
+    </div>
+  `).join('');
+  updateJourneyShowcase();
+}
+
+function selectStep(i) {
+  activeStep = i;
+  clearInterval(stepTimer);
+  renderJourneyTimeline();
+  startStepTimer();
+}
+
+function updateJourneyShowcase() {
+  const t = T[currentLang];
+  const s = t.steps[activeStep];
+  if (!s) return;
+  setText('journey-icon', s.icon);
+  setText('journey-who', s.who);
+  setText('journey-step-title', s.title);
+  setText('journey-step-desc', s.desc);
+  const pct = ((activeStep + 1) / t.steps.length) * 100;
+  document.getElementById('journey-progress').style.width = pct + '%';
+  document.getElementById('journey-counter').textContent = (activeStep + 1) + ' / ' + t.steps.length;
+}
+
+// ===== DASHBOARD =====
+function setDashMode(mode) {
+  dashMode = mode;
+  document.getElementById('btn-before').classList.toggle('active', mode === 'before');
+  document.getElementById('btn-after').classList.toggle('active', mode === 'after');
+  const box = document.getElementById('saving-box');
+  if (mode === 'after') {
+    box.classList.add('show');
+    animateCounters();
+  } else {
+    box.classList.remove('show');
+  }
+  renderDashCards();
+  renderChart();
+}
+
+function renderDashCards() {
+  const t = T[currentLang];
+  const isAfter = dashMode === 'after';
+  const cards = [
+    { label: t.lblBudget, value: '2,000', unit: 'ر.س', icon: '💼', color: '#8A2BE2' },
+    { label: t.lblSpent, value: isAfter ? '1,420' : '2,350', unit: 'ر.س', icon: isAfter ? '📉' : '📈', color: isAfter ? '#10B981' : '#EF4444' },
+    { label: t.lblSaved, value: isAfter ? '+580' : '-350', unit: 'ر.س', icon: isAfter ? '💰' : '😰', color: isAfter ? '#F59E0B' : '#EF4444' },
+    { label: t.lblOrders, value: isAfter ? '18' : '12', unit: '', icon: '📦', color: '#3B82F6' },
+  ];
+  const container = document.getElementById('dash-cards');
+  if (!container) return;
+  container.innerHTML = cards.map(c => `
+    <div class="dash-card" style="background:${c.color}15;border:1px solid ${c.color}40">
+      <div class="dash-card-icon">${c.icon}</div>
+      <div class="dash-card-value" style="color:${c.color}">${c.value} <span style="font-size:16px">${c.unit}</span></div>
+      <div class="dash-card-label">${c.label}</div>
+    </div>
+  `).join('');
+}
+
+function animateCounters() {
+  // Simple counter animation for saving percent
+  let start = 0;
+  const target = 29;
+  const el = document.getElementById('saving-percent');
+  const timer = setInterval(() => {
+    start += 1;
+    if (el) el.textContent = start + '%';
+    if (start >= target) clearInterval(timer);
+  }, 40);
+}
+
+// ===== CHART =====
+function renderChart() {
+  const t = T[currentLang];
+  const isAfter = dashMode === 'after';
+  const container = document.getElementById('chart-bars');
+  if (!container) return;
+  container.innerHTML = t.chartMonths.map((month, i) => {
+    const bH = chartBefore[i];
+    const aH = chartAfter[i];
+    return `
+      <div class="chart-month">
+        <div class="chart-bar-group">
+          <div class="chart-bar before" style="height:${bH}%"></div>
+          <div class="chart-bar after ${isAfter ? '' : 'hidden'}" style="height:${isAfter ? aH : bH}%"></div>
+        </div>
+        <div class="chart-month-label">${month}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== TIMERS =====
+function startPartyTimer() {
+  partyTimer = setInterval(() => {
+    activeParty = (activeParty + 1) % T[currentLang].parties.length;
+    renderParties();
+  }, 2500);
+}
+
+function startStepTimer() {
+  stepTimer = setInterval(() => {
+    activeStep = (activeStep + 1) % T[currentLang].steps.length;
+    renderJourneyTimeline();
+  }, 2200);
+}
+
+function startTimers() {
+  startPartyTimer();
+  startStepTimer();
+}
+
+// ===== SCROLL ANIMATIONS =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('section').forEach(s => {
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(30px)';
+  s.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+  observer.observe(s);
+});
+
+// ===== START =====
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
