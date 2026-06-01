@@ -353,6 +353,173 @@
     [dir="ltr"] { font-family: 'Cairo', sans-serif; }
     [lang="ur"] { font-family: 'Noto Nastaliq Urdu', 'Cairo', sans-serif; }
     [lang="hi"] { font-family: 'Noto Sans Devanagari', 'Cairo', sans-serif; }
+
+    /* ===== VIDEO SECTION ===== */
+    #video-section { background: #0B0E1A; padding: 80px 24px; }
+    .video-wrapper {
+      max-width: 860px; margin: 0 auto;
+      border-radius: 24px; overflow: hidden;
+      border: 2px solid rgba(138,43,226,0.4);
+      box-shadow: 0 0 60px rgba(138,43,226,0.25);
+      position: relative;
+    }
+    .video-placeholder {
+      background: linear-gradient(135deg, #1a0a2e 0%, #0B0E1A 50%, #1a0a00 100%);
+      aspect-ratio: 16/9; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 20px;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .video-placeholder::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(138,43,226,0.2) 0%, transparent 70%);
+    }
+    .video-play-btn {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; position: relative; z-index: 1;
+      box-shadow: 0 0 40px rgba(138,43,226,0.6);
+      animation: pulse-glow 2s ease-in-out infinite;
+      transition: transform 0.2s;
+    }
+    .video-play-btn:hover { transform: scale(1.1); }
+    .video-play-text { font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.85); position: relative; z-index: 1; }
+    .video-steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; max-width: 860px; margin: 36px auto 0;
+    }
+    .video-step {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 20px 16px; text-align: center;
+    }
+    .video-step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 15px; margin: 0 auto 12px;
+    }
+    .video-step-icon { font-size: 28px; margin-bottom: 10px; }
+    .video-step-title { font-size: 14px; font-weight: 700; color: #FFFFFF; }
+    .video-step-desc { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 6px; line-height: 1.4; }
+    .video-modal {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.92); align-items: center; justify-content: center;
+    }
+    .video-modal.open { display: flex; }
+    .video-modal-inner {
+      width: 90vw; max-width: 900px; position: relative;
+      border-radius: 20px; overflow: hidden;
+      border: 2px solid rgba(138,43,226,0.5);
+    }
+    .video-modal-close {
+      position: absolute; top: 14px; left: 14px; z-index: 10;
+      background: rgba(0,0,0,0.7); border: none; color: #FFFFFF;
+      width: 40px; height: 40px; border-radius: 50%; font-size: 20px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .video-modal iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+
+    /* ===== FAQ SECTION ===== */
+    #faq { background: linear-gradient(180deg, #0F1228 0%, #0B0E1A 100%); }
+    .faq-list { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+    .faq-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .faq-item.open { border-color: rgba(138,43,226,0.5); }
+    .faq-q {
+      padding: 20px 24px; display: flex; align-items: center;
+      justify-content: space-between; cursor: pointer; gap: 16px;
+      font-weight: 700; font-size: 16px; color: #FFFFFF;
+      user-select: none;
+    }
+    .faq-q:hover { background: rgba(255,255,255,0.03); }
+    .faq-icon {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(138,43,226,0.2); display: flex; align-items: center;
+      justify-content: center; font-size: 18px; transition: transform 0.3s, background 0.3s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: linear-gradient(135deg, #8A2BE2, #FF8C00); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+      color: rgba(255,255,255,0.72); font-size: 15px; line-height: 1.7;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+
+    /* ===== REGISTER SECTION ===== */
+    #register { background: linear-gradient(135deg, #1E0A3C 0%, #0B0E1A 50%, #1a0a00 100%); position: relative; overflow: hidden; }
+    #register::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(138,43,226,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .register-box {
+      max-width: 560px; margin: 0 auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(138,43,226,0.35);
+      border-radius: 28px; padding: 52px 44px;
+      position: relative; z-index: 1;
+    }
+    .register-icon { font-size: 56px; text-align: center; margin-bottom: 20px; }
+    .register-title { font-size: 26px; font-weight: 900; text-align: center; margin-bottom: 10px; }
+    .register-subtitle { color: rgba(255,255,255,0.6); text-align: center; font-size: 15px; margin-bottom: 36px; line-height: 1.6; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+    .form-input {
+      width: 100%; padding: 14px 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; color: #FFFFFF; font-size: 15px;
+      font-family: inherit; outline: none; transition: border-color 0.3s, background 0.3s;
+    }
+    .form-input:focus { border-color: #8A2BE2; background: rgba(138,43,226,0.1); }
+    .form-input::placeholder { color: rgba(255,255,255,0.35); }
+    .form-select {
+      width: 100%; padding: 14px 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px; color: #FFFFFF; font-size: 15px;
+      font-family: inherit; outline: none; cursor: pointer;
+      transition: border-color 0.3s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .form-select:focus { border-color: #8A2BE2; }
+    .form-select option { background: #1a0a2e; color: #FFFFFF; }
+    .btn-register {
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, #8A2BE2, #FF8C00);
+      border: none; border-radius: 14px; color: #FFFFFF;
+      font-size: 17px; font-weight: 700; cursor: pointer;
+      font-family: inherit; margin-top: 10px;
+      box-shadow: 0 8px 32px rgba(138,43,226,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-register:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(138,43,226,0.6); }
+    .btn-register:active { transform: scale(0.98); }
+    .btn-register:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .register-success {
+      display: none; text-align: center; padding: 20px;
+      background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4);
+      border-radius: 16px; margin-top: 20px;
+    }
+    .register-success.show { display: block; animation: slide-in 0.5s ease-out; }
+    .register-success-icon { font-size: 48px; margin-bottom: 12px; }
+    .register-success-text { font-size: 18px; font-weight: 700; color: #10B981; }
+    .register-success-sub { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 8px; }
+    .register-counter {
+      text-align: center; margin-top: 24px;
+      font-size: 14px; color: rgba(255,255,255,0.45);
+    }
+    .register-counter span { color: #FF8C00; font-weight: 700; font-size: 22px; }
+
+    @media (max-width: 600px) {
+      .register-box { padding: 32px 22px; }
+      .video-steps { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -487,6 +654,82 @@
   </div>
 </section>
 
+<!-- ===== VIDEO SECTION ===== -->
+<section id="video-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="video-title">كيف تعمل المنصة؟</h2>
+      <p class="section-subtitle" id="video-subtitle">شاهد رحلة الطلب خطوة بخطوة</p>
+    </div>
+    <div class="video-wrapper">
+      <div class="video-placeholder" onclick="openVideoModal()" id="video-placeholder">
+        <div class="video-play-btn">▶</div>
+        <div class="video-play-text" id="video-play-text">▶ شاهد الفيديو التعريفي</div>
+      </div>
+    </div>
+    <div class="video-steps" id="video-steps"></div>
+  </div>
+</section>
+
+<!-- Video Modal -->
+<div class="video-modal" id="video-modal" onclick="closeVideoModal(event)">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+    <iframe id="video-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+  </div>
+</div>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="faq-title">الأسئلة الشائعة</h2>
+      <p class="section-subtitle" id="faq-subtitle">كل ما تريد معرفته عن المنصة</p>
+    </div>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- ===== REGISTER ===== -->
+<section id="register">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title" id="reg-section-title">سجّل اهتمامك الآن</h2>
+      <p class="section-subtitle" id="reg-section-subtitle">كن من أوائل المستفيدين من المنصة</p>
+    </div>
+    <div class="register-box">
+      <div class="register-icon">🚀</div>
+      <h3 class="register-title" id="reg-title">انضم لقائمة الانتظار</h3>
+      <p class="register-subtitle" id="reg-subtitle">سجّل بياناتك وسنتواصل معك فور الإطلاق الرسمي للمنصة</p>
+      <form id="register-form" onsubmit="submitRegister(event)">
+        <div class="form-group">
+          <label class="form-label" id="reg-name-label">الاسم الكامل</label>
+          <input class="form-input" type="text" id="reg-name" required placeholder="أدخل اسمك الكامل" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="reg-phone-label">رقم الجوال</label>
+          <input class="form-input" type="tel" id="reg-phone" required placeholder="05xxxxxxxx" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="reg-type-label">نوع المستخدم</label>
+          <select class="form-select" id="reg-type">
+            <option value="family" id="reg-opt-family">👨‍👩‍👧‍👦 رب أسرة / عائلة</option>
+            <option value="store" id="reg-opt-store">🏪 صاحب متجر</option>
+            <option value="restaurant" id="reg-opt-restaurant">🍽️ صاحب مطعم</option>
+          </select>
+        </div>
+        <button class="btn-register" type="submit" id="reg-btn">🎯 سجّل اهتمامي</button>
+      </form>
+      <div class="register-success" id="reg-success">
+        <div class="register-success-icon">🎉</div>
+        <div class="register-success-text" id="reg-success-text">تم التسجيل بنجاح!</div>
+        <div class="register-success-sub" id="reg-success-sub">سنتواصل معك قريباً على رقم جوالك</div>
+      </div>
+      <div class="register-counter" id="reg-counter">انضم <span id="reg-count">247</span> شخص بالفعل</div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== FOOTER ===== -->
 <footer>
   <img class="footer-logo" src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663432365674/kDGLXbBmawyfCtIu.png" alt="وصل المنزل" onerror="this.style.display='none'" />
@@ -532,6 +775,43 @@ const T = {
     footerTagline:"لأن أسرتك تستحق الأفضل",
     footerVisit:"🌐 زيارة المنصة",
     footerCopy:"© 2025 وصل المنزل — جميع الحقوق محفوظة",
+    videoTitle:"كيف تعمل المنصة؟",
+    videoSubtitle:"شاهد رحلة الطلب خطوة بخطوة",
+    videoPlayText:"▶ شاهد الفيديو التعريفي",
+    videoUrl:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoSteps:[
+      {num:"1",icon:"📱",title:"أضف احتياجك",desc:"كل فرد يضيف من هاتفه"},
+      {num:"2",icon:"✅",title:"موافقة رب الأسرة",desc:"مراجعة وموافقة ضمن الميزانية"},
+      {num:"3",icon:"🏪",title:"عروض المتاجر",desc:"مقارنة الأسعار تلقائياً"},
+      {num:"4",icon:"🚗",title:"التوصيل للباب",desc:"إشعار فوري عند الوصول"},
+    ],
+    faqTitle:"الأسئلة الشائعة",
+    faqSubtitle:"كل ما تريد معرفته عن المنصة",
+    faqs:[
+      {q:"ما هي منصة وصل المنزل؟",a:"منصة وصل المنزل هي تطبيق ذكي يربط أفراد الأسرة بالمتاجر والمطاعم في الحي، يتيح لكل فرد إضافة احتياجاته ويمنح رب الأسرة تحكماً كاملاً في الميزانية والطلبات."},
+      {q:"هل الخدمة متاحة في جميع المناطق؟",a:"حالياً نعمل على إطلاق الخدمة في المدن الرئيسية بالمملكة العربية السعودية، وسيتم التوسع تدريجياً لتشمل جميع المناطق."},
+      {q:"كيف يتم الدفع؟",a:"يدعم التطبيق الدفع الإلكتروني عبر البطاقات البنكية ومدى وApple Pay، بالإضافة إلى خيار الدفع عند الاستلام."},
+      {q:"هل يمكن لأكثر من شخص في الأسرة استخدام التطبيق؟",a:"نعم! يمكن لجميع أفراد الأسرة استخدام التطبيق تحت حساب واحد، مع صلاحيات مختلفة لكل فرد. رب الأسرة يوافق على الطلبات ويتحكم في الميزانية."},
+      {q:"كيف يمكن للمتاجر الانضمام للمنصة؟",a:"يمكن للمتاجر والمطاعم التسجيل عبر المنصة والحصول على لوحة تحكم خاصة لاستقبال الطلبات وإدارة المخزون وتتبع المبيعات."},
+      {q:"ما هي رسوم الاشتراك؟",a:"الاشتراك مجاني للعائلات خلال فترة الإطلاق. للمتاجر والمطاعم توجد خطط اشتراك مرنة تناسب جميع الأحجام."},
+    ],
+    regSectionTitle:"سجّل اهتمامك الآن",
+    regSectionSubtitle:"كن من أوائل المستفيدين من المنصة",
+    regTitle:"انضم لقائمة الانتظار",
+    regSubtitle:"سجّل بياناتك وسنتواصل معك فور الإطلاق الرسمي للمنصة",
+    regNameLabel:"الاسم الكامل",
+    regNamePlaceholder:"أدخل اسمك الكامل",
+    regPhoneLabel:"رقم الجوال",
+    regPhonePlaceholder:"05xxxxxxxx",
+    regTypeLabel:"نوع المستخدم",
+    regOptFamily:"👨‍👩‍👧‍👦 رب أسرة / عائلة",
+    regOptStore:"🏪 صاحب متجر",
+    regOptRestaurant:"🍽️ صاحب مطعم",
+    regBtn:"🎯 سجّل اهتمامي",
+    regSuccessText:"تم التسجيل بنجاح!",
+    regSuccessSub:"سنتواصل معك قريباً على رقم جوالك",
+    regCounter:"انضم",
+    regCounterSuffix:"شخص بالفعل",
     parties:[
       {icon:"👨‍💼",name:"رب الأسرة",desc:"يتحكم في الميزانية ويوافق على الطلبات",color:"#8A2BE2"},
       {icon:"👩‍🍳",name:"الأم",desc:"تضيف احتياجات المنزل والمطبخ",color:"#FF8C00"},
@@ -582,6 +862,43 @@ const T = {
     footerTagline:"Because your family deserves the best",
     footerVisit:"🌐 Visit Platform",
     footerCopy:"© 2025 Wasl Al-Manzil — All rights reserved",
+    videoTitle:"How Does the Platform Work?",
+    videoSubtitle:"Watch the order journey step by step",
+    videoPlayText:"▶ Watch Intro Video",
+    videoUrl:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoSteps:[
+      {num:"1",icon:"📱",title:"Add Your Need",desc:"Each member adds from their phone"},
+      {num:"2",icon:"✅",title:"Head Approval",desc:"Review and approve within budget"},
+      {num:"3",icon:"🏪",title:"Store Offers",desc:"Automatic price comparison"},
+      {num:"4",icon:"🚗",title:"Door Delivery",desc:"Instant notification on arrival"},
+    ],
+    faqTitle:"Frequently Asked Questions",
+    faqSubtitle:"Everything you want to know about the platform",
+    faqs:[
+      {q:"What is Wasl Al-Manzil?",a:"Wasl Al-Manzil is a smart app connecting family members with local stores and restaurants. Each member can add their needs while the head of family has full budget and order control."},
+      {q:"Is the service available in all areas?",a:"We are currently launching in major cities in Saudi Arabia, with gradual expansion to cover all regions."},
+      {q:"How is payment processed?",a:"The app supports electronic payment via bank cards, Mada, and Apple Pay, plus cash on delivery option."},
+      {q:"Can multiple family members use the app?",a:"Yes! All family members can use the app under one account with different permissions. The head of family approves orders and controls the budget."},
+      {q:"How can stores join the platform?",a:"Stores and restaurants can register through the platform and get a dedicated dashboard to receive orders, manage inventory, and track sales."},
+      {q:"What are the subscription fees?",a:"Subscription is free for families during the launch period. For stores and restaurants, flexible subscription plans are available for all sizes."},
+    ],
+    regSectionTitle:"Register Your Interest Now",
+    regSectionSubtitle:"Be among the first to benefit from the platform",
+    regTitle:"Join the Waiting List",
+    regSubtitle:"Register your details and we'll contact you upon official launch",
+    regNameLabel:"Full Name",
+    regNamePlaceholder:"Enter your full name",
+    regPhoneLabel:"Mobile Number",
+    regPhonePlaceholder:"+966 5x xxx xxxx",
+    regTypeLabel:"User Type",
+    regOptFamily:"👨‍👩‍👧‍👦 Head of Family / Family",
+    regOptStore:"🏪 Store Owner",
+    regOptRestaurant:"🍽️ Restaurant Owner",
+    regBtn:"🎯 Register My Interest",
+    regSuccessText:"Successfully Registered!",
+    regSuccessSub:"We will contact you soon on your mobile number",
+    regCounter:"Joined by",
+    regCounterSuffix:"people already",
     parties:[
       {icon:"👨‍💼",name:"Head of Family",desc:"Controls budget and approves orders",color:"#8A2BE2"},
       {icon:"👩‍🍳",name:"Mother",desc:"Adds home and kitchen needs",color:"#FF8C00"},
@@ -632,6 +949,43 @@ const T = {
     footerTagline:"کیونکہ آپ کا خاندان بہترین کا مستحق ہے",
     footerVisit:"🌐 پلیٹ فارم وزٹ کریں",
     footerCopy:"© 2025 وصل المنزل — تمام حقوق محفوظ ہیں",
+    videoTitle:"پلیٹ فارم کیسے کام کرتا ہے؟",
+    videoSubtitle:"آرڈر کا سفر قدم بہ قدم دیکھیں",
+    videoPlayText:"▶ تعارفی ویڈیو دیکھیں",
+    videoUrl:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoSteps:[
+      {num:"1",icon:"📱",title:"ضرورت شامل کریں",desc:"ہر فرد اپنے فون سے"},
+      {num:"2",icon:"✅",title:"سربراہ کی منظوری",desc:"بجٹ میں منظوری"},
+      {num:"3",icon:"🏪",title:"دکانوں کی پیشکش",desc:"قیمتوں کا موازنہ"},
+      {num:"4",icon:"🚗",title:"گھر ڈیلیوری",desc:"فوری اطلاع"},
+    ],
+    faqTitle:"عام سوالات",
+    faqSubtitle:"پلیٹ فارم کے بارے میں سب کچھ جانیں",
+    faqs:[
+      {q:"وصل المنزل کیا ہے؟",a:"وصل المنزل ایک سمارٹ ایپ ہے جو خاندان کو مقامی دکانوں سے جوڑتا ہے۔ ہر فرد ضرورتیں شامل کر سکتا ہے اور سربراہ بجٹ کنٹرول کرتا ہے۔"},
+      {q:"کیا خدمت تمام علاقوں میں دستیاب ہے؟",a:"فیلحال ہم سعودی عرب کے بڑے شہروں میں لانچ کر رہے ہیں۔"},
+      {q:"ادائیگی کیسے ہوتی ہے؟",a:"ایپ بینک کارڈ، مدی، ایپل پے اور کیش آن ڈیلیوری کی سہولت دیتا ہے۔"},
+      {q:"کیا خاندان کے متعدد افراد ایپ استعمال کر سکتے ہیں؟",a:"جی! تمام افراد ایک اکاؤنٹ کے تحت مختلف اجازتوں کے ساتھ استعمال کر سکتے ہیں۔"},
+      {q:"دکانیں کیسے شامل ہو سکتی ہیں؟",a:"دکانیں اور ریستوران پلیٹ فارم کے ذریعے رجسٹر ہو سکتے ہیں۔"},
+      {q:"سبسکرپشن فیس کیا ہے؟",a:"لانچ کے دوران خاندانوں کے لیے مفت ہے۔ دکانوں کے لیے لچیلے پلان دستیاب ہیں۔"},
+    ],
+    regSectionTitle:"ابھی رجسٹر کریں",
+    regSectionSubtitle:"پلیٹ فارم سے پہلے فائدہ اٹھانے والوں میں سے ہوں",
+    regTitle:"ویٹنگ لسٹ میں شامل ہوں",
+    regSubtitle:"اپنی معلومات درج کریں، ہم لانچ پر رابطہ کریں گے",
+    regNameLabel:"پورا نام",
+    regNamePlaceholder:"اپنا پورا نام درج کریں",
+    regPhoneLabel:"موبائل نمبر",
+    regPhonePlaceholder:"+966 5x xxx xxxx",
+    regTypeLabel:"صارف کی قسم",
+    regOptFamily:"👨‍👩‍👧‍👦 گھر کا سربراہ / خاندان",
+    regOptStore:"🏪 دکان مالک",
+    regOptRestaurant:"🍽️ ریستوران مالک",
+    regBtn:"🎯 رجسٹر کریں",
+    regSuccessText:"کامیابی سے رجسٹر ہو گیا!",
+    regSuccessSub:"ہم آپ کے موبائل پر رابطہ کریں گے",
+    regCounter:"شامل ہوئے",
+    regCounterSuffix:"لوگ پہلے سے",
     parties:[
       {icon:"👨‍💼",name:"گھر کا سربراہ",desc:"بجٹ کنٹرول اور آرڈر منظوری",color:"#8A2BE2"},
       {icon:"👩‍🍳",name:"والدہ",desc:"گھر اور باورچی خانے کی ضروریات",color:"#FF8C00"},
@@ -682,6 +1036,43 @@ const T = {
     footerTagline:"क्योंकि आपका परिवार सर्वश्रेष्ठ का हकदार है",
     footerVisit:"🌐 प्लेटफॉर्म विजिट करें",
     footerCopy:"© 2025 वस्ल अल-मंज़िल — सर्वाधिकार सुरक्षित",
+    videoTitle:"प्लेटफॉर्म कैसे काम करता है?",
+    videoSubtitle:"ऑर्डर की यात्रा कदम दर कदम देखें",
+    videoPlayText:"▶ परिचय वीडियो देखें",
+    videoUrl:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoSteps:[
+      {num:"1",icon:"📱",title:"जरूरत जोड़ें",desc:"हर सदस्य अपने फोन से"},
+      {num:"2",icon:"✅",title:"मुखिया की मंजूरी",desc:"बजट में मंजूरी"},
+      {num:"3",icon:"🏪",title:"दुकानों के ऑफर",desc:"कीमतों की तुलना"},
+      {num:"4",icon:"🚗",title:"घर डिलीवरी",desc:"तत्काल सूचना"},
+    ],
+    faqTitle:"अक्सर पूछे जाने वाले सवाल",
+    faqSubtitle:"प्लेटफॉर्म के बारे में सब कुछ जानें",
+    faqs:[
+      {q:"वस्ल अल-मंज़िल क्या है?",a:"वस्ल अल-मंज़िल एक स्मार्ट एप है जो परिवार को स्थानीय दुकानों से जोड़ता है।"},
+      {q:"क्या सेवा सभी क्षेत्रों में उपलब्ध है?",a:"अभी साउदी अरब के प्रमुख शहरों में शुरू हो रहा है।"},
+      {q:"भुगतान कैसे होता है?",a:"एप बैंक कार्ड, मदा, एपल पे और कैश ऑन डिलीवरी समर्थन करता है।"},
+      {q:"क्या परिवार के कई सदस्य एप उपयोग कर सकते हैं?",a:"हाँ! सभी सदस्य एक खाते के तहत अलग-अलग अनुमतियों के साथ उपयोग कर सकते हैं।"},
+      {q:"दुकानें कैसे जुड़ सकती हैं?",a:"दुकानें और रेस्तरां प्लेटफॉर्म के जरिए रजिस्टर कर सकती हैं।"},
+      {q:"सदस्यता शुल्क क्या है?",a:"लॉन्च के दौरान परिवारों के लिए मुफ्त है। दुकानों के लिए लचीली योजनाएं उपलब्ध हैं।"},
+    ],
+    regSectionTitle:"अभी रजिस्टर करें",
+    regSectionSubtitle:"प्लेटफॉर्म से पहले लाभ उठाने वालों में शामिल हों",
+    regTitle:"वेटिंग लिस्ट में शामिल हों",
+    regSubtitle:"अपनी जानकारी दर्ज करें, लॉन्च पर संपर्क करेंगे",
+    regNameLabel:"पूरा नाम",
+    regNamePlaceholder:"अपना पूरा नाम दर्ज करें",
+    regPhoneLabel:"मोबाइल नंबर",
+    regPhonePlaceholder:"+966 5x xxx xxxx",
+    regTypeLabel:"उपयोगकर्ता प्रकार",
+    regOptFamily:"👨‍👩‍👧‍👦 परिवार का मुखिया / परिवार",
+    regOptStore:"🏪 दुकान मालिक",
+    regOptRestaurant:"🍽️ रेस्तराँ मालिक",
+    regBtn:"🎯 रजिस्टर करें",
+    regSuccessText:"सफलतापूर्वक रजिस्टर हो गए!",
+    regSuccessSub:"हम आपके मोबाइल पर संपर्क करेंगे",
+    regCounter:"शामिल हुए",
+    regCounterSuffix:"लोग पहले से",
     parties:[
       {icon:"👨‍💼",name:"परिवार का मुखिया",desc:"बजट नियंत्रण और ऑर्डर अनुमोदन",color:"#8A2BE2"},
       {icon:"👩‍🍳",name:"माँ",desc:"घर और रसोई की जरूरतें जोड़ें",color:"#FF8C00"},
@@ -732,6 +1123,43 @@ const T = {
     footerTagline:"Dahil ang iyong pamilya ay karapat-dapat sa pinakamahusay",
     footerVisit:"🌐 Bisitahin ang Platform",
     footerCopy:"© 2025 Wasl Al-Manzil — Lahat ng karapatan ay nakalaan",
+    videoTitle:"Paano Gumagana ang Platform?",
+    videoSubtitle:"Panoorin ang order journey hakbang-hakbang",
+    videoPlayText:"▶ Panoorin ang Intro Video",
+    videoUrl:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+    videoSteps:[
+      {num:"1",icon:"📱",title:"Idagdag ang Pangangailangan",desc:"Bawat miyembro mula sa kanilang telepono"},
+      {num:"2",icon:"✅",title:"Pag-apruba ng Ulo",desc:"Suriin at aprubahan sa badyet"},
+      {num:"3",icon:"🏪",title:"Mga Alok ng Tindahan",desc:"Awtomatikong paghahambing ng presyo"},
+      {num:"4",icon:"🚗",title:"Home Delivery",desc:"Agarang abiso sa pagdating"},
+    ],
+    faqTitle:"Mga Madalas na Tanong",
+    faqSubtitle:"Lahat ng gusto mong malaman tungkol sa platform",
+    faqs:[
+      {q:"Ano ang Wasl Al-Manzil?",a:"Ang Wasl Al-Manzil ay isang smart app na nagkokonekta sa mga pamilya sa mga lokal na tindahan. Maaaring magdagdag ng pangangailangan ang bawat miyembro habang kinokontrol ng ulo ng pamilya ang badyet."},
+      {q:"Available ba ang serbisyo sa lahat ng lugar?",a:"Kasalukuyang naglulunsad kami sa mga pangunahing lungsod ng Saudi Arabia."},
+      {q:"Paano ang pagbabayad?",a:"Sinusuportahan ng app ang bank cards, Mada, Apple Pay, at cash on delivery."},
+      {q:"Maaari bang gumamit ang maraming miyembro ng pamilya?",a:"Oo! Lahat ng miyembro ay maaaring gumamit sa ilalim ng isang account na may iba't ibang pahintulot."},
+      {q:"Paano maaaring sumali ang mga tindahan?",a:"Maaaring mag-register ang mga tindahan at restaurant sa pamamagitan ng platform."},
+      {q:"Magkano ang bayad sa subscription?",a:"Libre para sa mga pamilya sa panahon ng paglulunsad. Para sa mga tindahan, may flexible na mga plano."},
+    ],
+    regSectionTitle:"Mag-register Ngayon",
+    regSectionSubtitle:"Maging isa sa mga unang makikinabang sa platform",
+    regTitle:"Sumali sa Waiting List",
+    regSubtitle:"I-register ang iyong detalye at makikipag-ugnayan kami sa iyo",
+    regNameLabel:"Buong Pangalan",
+    regNamePlaceholder:"Ilagay ang iyong buong pangalan",
+    regPhoneLabel:"Mobile Number",
+    regPhonePlaceholder:"+966 5x xxx xxxx",
+    regTypeLabel:"Uri ng Gumagamit",
+    regOptFamily:"👨‍👩‍👧‍👦 Ulo ng Pamilya / Pamilya",
+    regOptStore:"🏪 May-ari ng Tindahan",
+    regOptRestaurant:"🍽️ May-ari ng Restaurant",
+    regBtn:"🎯 I-register ang Interes Ko",
+    regSuccessText:"Matagumpay na Naka-register!",
+    regSuccessSub:"Makikipag-ugnayan kami sa iyo sa iyong mobile number",
+    regCounter:"Sumali na ang",
+    regCounterSuffix:"tao na",
     parties:[
       {icon:"👨‍💼",name:"Ulo ng Pamilya",desc:"Kontrolin ang badyet at aprubahan ang mga order",color:"#8A2BE2"},
       {icon:"👩‍🍳",name:"Ina",desc:"Idagdag ang mga pangangailangan ng tahanan",color:"#FF8C00"},
@@ -771,6 +1199,9 @@ function init() {
   renderJourneyTimeline();
   renderDashCards();
   renderChart();
+  renderVideoSteps();
+  renderFAQ();
+  updateRegCounter();
   startTimers();
   applyLang('ar');
 }
@@ -814,6 +1245,40 @@ function applyLang(lang) {
   setText('footer-tagline', t.footerTagline);
   setText('footer-visit', t.footerVisit);
   setText('footer-copy', t.footerCopy);
+
+  // Video section
+  setText('video-title', t.videoTitle);
+  setText('video-subtitle', t.videoSubtitle);
+  setText('video-play-text', t.videoPlayText);
+  renderVideoSteps();
+
+  // FAQ
+  setText('faq-title', t.faqTitle);
+  setText('faq-subtitle', t.faqSubtitle);
+  renderFAQ();
+
+  // Register
+  setText('reg-section-title', t.regSectionTitle);
+  setText('reg-section-subtitle', t.regSectionSubtitle);
+  setText('reg-title', t.regTitle);
+  setText('reg-subtitle', t.regSubtitle);
+  setText('reg-name-label', t.regNameLabel);
+  setText('reg-phone-label', t.regPhoneLabel);
+  setText('reg-type-label', t.regTypeLabel);
+  setText('reg-btn', t.regBtn);
+  setText('reg-success-text', t.regSuccessText);
+  setText('reg-success-sub', t.regSuccessSub);
+  const regName = document.getElementById('reg-name');
+  if (regName) regName.placeholder = t.regNamePlaceholder;
+  const regPhone = document.getElementById('reg-phone');
+  if (regPhone) regPhone.placeholder = t.regPhonePlaceholder;
+  const optFamily = document.getElementById('reg-opt-family');
+  if (optFamily) optFamily.textContent = t.regOptFamily;
+  const optStore = document.getElementById('reg-opt-store');
+  if (optStore) optStore.textContent = t.regOptStore;
+  const optRest = document.getElementById('reg-opt-restaurant');
+  if (optRest) optRest.textContent = t.regOptRestaurant;
+  updateRegCounter();
 
   renderParties();
   renderJourneyTimeline();
@@ -986,6 +1451,104 @@ function startStepTimer() {
 function startTimers() {
   startPartyTimer();
   startStepTimer();
+}
+
+// ===== VIDEO =====
+function renderVideoSteps() {
+  const t = T[currentLang];
+  const container = document.getElementById('video-steps');
+  if (!container || !t.videoSteps) return;
+  container.innerHTML = t.videoSteps.map(s => `
+    <div class="video-step">
+      <div class="video-step-num">${s.num}</div>
+      <div class="video-step-icon">${s.icon}</div>
+      <div class="video-step-title">${s.title}</div>
+      <div class="video-step-desc">${s.desc}</div>
+    </div>
+  `).join('');
+}
+
+function openVideoModal() {
+  const t = T[currentLang];
+  const modal = document.getElementById('video-modal');
+  const iframe = document.getElementById('video-iframe');
+  if (!modal || !iframe) return;
+  iframe.src = (t.videoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ') + '?autoplay=1';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal(e) {
+  if (e && e.target !== document.getElementById('video-modal') && !e.target.classList.contains('video-modal-close')) return;
+  const modal = document.getElementById('video-modal');
+  const iframe = document.getElementById('video-iframe');
+  if (modal) modal.classList.remove('open');
+  if (iframe) iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+// ===== FAQ =====
+function renderFAQ() {
+  const t = T[currentLang];
+  const container = document.getElementById('faq-list');
+  if (!container || !t.faqs) return;
+  container.innerHTML = t.faqs.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span>
+        <div class="faq-icon">+</div>
+      </div>
+      <div class="faq-a">${f.a}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const item = document.getElementById('faq-' + i);
+  if (!item) return;
+  const isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  // Open clicked if was closed
+  if (!isOpen) item.classList.add('open');
+}
+
+// ===== REGISTER =====
+let regCount = 247;
+
+function updateRegCounter() {
+  const t = T[currentLang];
+  const counter = document.getElementById('reg-counter');
+  if (!counter) return;
+  counter.innerHTML = `${t.regCounter} <span id="reg-count">${regCount}</span> ${t.regCounterSuffix}`;
+}
+
+function submitRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('reg-name').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const type = document.getElementById('reg-type').value;
+  if (!name || !phone) return;
+
+  // Simulate submission
+  const btn = document.getElementById('reg-btn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  setTimeout(() => {
+    // Show success
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('reg-success').classList.add('show');
+    // Increment counter
+    regCount++;
+    updateRegCounter();
+    // Store locally
+    try {
+      const registrations = JSON.parse(localStorage.getItem('wsl_registrations') || '[]');
+      registrations.push({ name, phone, type, lang: currentLang, date: new Date().toISOString() });
+      localStorage.setItem('wsl_registrations', JSON.stringify(registrations));
+    } catch(err) {}
+  }, 1200);
 }
 
 // ===== SCROLL ANIMATIONS =====
